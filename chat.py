@@ -1,13 +1,39 @@
 import os
 import platform
-import socket as socket
+import socket
 import time
-import threading as th
-import _thread as thread
+import threading
 from functools import partial
 import random
-import pickle
-device_list = []
+import base64
+import tkinter
+from tkinter import messagebox
+from tkinter import scrolledtext
+import sys
+import traceback
+
+root1 = tkinter.Tk()
+root1.title('None')
+root1.resizable(False, False)
+
+
+class NameServer():
+    def __init__(self):
+        self.s = socket.socket()
+        self.s.bind(('127.0.0.1', 8885))  # 故意报错.
+
+    def set_name(self, name):
+        self.name = name
+
+    def main(self):
+        while True:
+            conn, addr = self.s.accept()
+            raw_content=conn.recv(3096)
+
+
+print('Initializing name server...')
+nameserver = NameServer()
+'''device_list = []
 raw_device_list = []
 r_device_dict = {}
 def msg_recv(conn,addr):
@@ -17,7 +43,6 @@ def msg_recv(conn,addr):
          break
     print(pickle.loads(pick))
     print('Enter to continue.')
-    main()
     return
 def msg_serv():
     while True:
@@ -134,7 +159,6 @@ def show_device(device_list):
 
 self_ip = '127.0.0.1'
 serv_ip = ''
-stop_name = th.Event()
 msg_port = 8885
 name_port = 8886
 msg_sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -162,31 +186,16 @@ if s1.connect_ex((self_ip, msg_port)) == 0:
     print("Message server successfully Started, ready to receive message.")
     s1.close()
 else:
-    print('''Can NOT start server, you will NOT able to get message.''')
+    print(''Can NOT start server, you will NOT able to get message.'')
     msg_serv_started = False
     s1.connect((self_ip, msg_port))
 if s2.connect_ex((self_ip, name_port)) == 0:
     print('Name server successfully started, ready to resopnse name.')
 else:
-    print('''Can NOT start server, you will NOT able to set name.''')
+    print(''Can NOT start server, you will NOT able to set name.'')
     name_serv_started = False
     s2.connect((self_ip, name_port))
 time.sleep(1)
 s1.close()
 s2.close()
-def main():
- while True:
-    slect = input('s=send message, r=refresh device, d=show device list, e=exit:')
-    if slect == 's':
-        send_msg(device_list, msg_port, serv_name)
-    elif slect == 'r':
-        get_device(serv_name)
-    elif slect == 'e':
-        msg_sk.close()
-        name_sk.close()
-        exit()
-    elif slect == 'd':
-        show_device(device_list)
-    else:
-        pass
-main()
+main()'''
